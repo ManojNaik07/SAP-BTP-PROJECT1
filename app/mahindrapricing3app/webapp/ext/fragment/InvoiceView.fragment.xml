@@ -1,0 +1,5 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox id="_IDGenVBox" core:require="{ handler: 'mahindrapricing3app/ext/fragment/InvoiceView'}">
+		<PDFViewer id="pdfViewer" source="{pdfModel>/pdfSource}" showDownloadButton="true" isTrustedSource="true" height="600px" width="60%"/>
+	</VBox>
+</core:FragmentDefinition>

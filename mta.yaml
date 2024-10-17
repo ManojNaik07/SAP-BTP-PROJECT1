@@ -1,0 +1,137 @@
+_schema-version: 3.3.0
+ID: MahindraPricing3_03
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: MahindraPricing3_03-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: MahindraPricing3_03-db
+  - name: uaa_MahindraPricing3_03
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
+  build-parameters:
+    builder: npm
+- name: MahindraPricing3_03-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: MahindraPricing3_03-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: MahindraPricing3_03-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: MahindraPricing3_03-destination-service
+    parameters:
+      content-target: true
+  - name: MahindraPricing3_03_html_repo_host
+    parameters:
+      service-key:
+        name: MahindraPricing3_03_html_repo_host-key
+  - name: uaa_MahindraPricing3_03
+    parameters:
+      service-key:
+        name: uaa_MahindraPricing3_03-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: MahindraPricing3App_MahindraPricing3_03_html_repo_host
+          ServiceInstanceName: MahindraPricing3_03-html5-app-host-service
+          ServiceKeyName: MahindraPricing3_03_html_repo_host-key
+          sap.cloud.service: MahindraPricing3App
+        - Authentication: OAuth2UserTokenExchange
+          Name: MahindraPricing3App_uaa_MahindraPricing3_03
+          ServiceInstanceName: MahindraPricing3_03-xsuaa-service
+          ServiceKeyName: uaa_MahindraPricing3_03-key
+          sap.cloud.service: MahindraPricing3App
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: MahindraPricing3_03-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: MahindraPricing3_03_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - mahindrapricing3app.zip
+      name: mahindrapricing3app
+      target-path: resources/
+- name: mahindrapricing3app
+  type: html5
+  path: app/mahindrapricing3app
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: MahindraPricing3_03-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: MahindraPricing3_03-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: MahindraPricing3_03-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: MahindraPricing3_03-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: MahindraPricing3_03_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: MahindraPricing3_03-html5-app-host-service
+    service-plan: app-host
+- name: uaa_MahindraPricing3_03
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: MahindraPricing3_03-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production

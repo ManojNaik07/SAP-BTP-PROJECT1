@@ -1,0 +1,56 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox id="_IDGenVBox3" core:require="{ handler: 'mahindrapricing3app/ext/fragment/VehicleDetailsSO'}">
+		 <Table id="VehicleTable2" items="{path: 'salesToPurchase/purchaseToQuotation/quototionToEnquiry/enquiryToVehicle'}" >
+            <columns>
+                <Column id="_IDGenColumn" >
+                    <Text id="_IDGenText1"  text="Vehicle Code"/>
+                </Column>
+                <Column id="_IDGenColumn1" >
+                    <Text id="_IDGenText2"  text="Vehicle Name"/>
+                </Column>
+                <Column id="_IDGenColumn2" >
+                    <Text id="_IDGenText7"  text="Vehicle Color"/>
+                </Column>
+                <Column id="_IDGenColumn3" >
+                    <Text id="_IDGenText8"  text="Quantity"/>
+                </Column>
+                <Column id="_IDGenColumn8"  >
+                    <Text id="_IDGenText9"  text="Delivery Date" />
+                </Column>
+                <Column id="_IDGenColumn9"  >
+                    <Text id="_IDGenText10"  text="Delivery Lead Time" />
+                </Column>
+                <Column id="_IDGenColumn10"  >
+                    <Text id="_IDGenText15"  text="Shipping Charges" />
+                </Column>
+                <Column id="_IDGenColumn11"  >
+                    <Text id="_IDGenText16"  text="Shipping Method" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem id="_IDGenColumnListItem" >
+                    <Text id="_IDGenText21" text="{vehicleCode}"/>
+                    <Text id="_IDGenText22"  text="{vehicleName}"/>
+                    <Text id="_IDGenText23"  text="{vehicleColor}"/>
+                    <Text id="_IDGenText24"  text="{quantity}"/>
+                    <HBox id="_IDGenHBox1"  >
+                        <DatePicker id="_IDGenDatePicker"  value="{deliveryDate}" visible="{= ${editModel>/input} }"/>
+                        <Text id="_IDGenText25"  text="{deliveryDate}" visible="{= ${editModel>/text} }"></Text>
+                    </HBox>
+                    <HBox id="_IDGenHBox5"  >
+                        <Input id="_IDGenInput"  value="{deliveryLeadTime}" visible="{= ${editModel>/input} }" />
+                        <Text id="_IDGenText26"  text="{deliveryLeadTime}" visible="{= ${editModel>/text} }"></Text>
+                    </HBox>
+                    <HBox id="_IDGenHBox6"  >
+                        <Input id="_IDGenInput1"  value="{shippingCharges}" visible="{= ${editModel>/input} }" />
+                        <Text id="_IDGenText27"  text="{shippingCharges}" visible="{= ${editModel>/text} }"></Text>
+                    </HBox>
+                    <HBox id="_IDGenHBox7"  >
+                        <Input id="_IDGenInput2"  value="{shippingMethod}" visible="{= ${editModel>/input} }" />
+                        <Text id="_IDGenText28"   text="{shippingMethod}" visible="{= ${editModel>/text} }"></Text>
+                    </HBox>
+                </ColumnListItem>
+            </items>
+        </Table>
+	</VBox>
+</core:FragmentDefinition>

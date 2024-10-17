@@ -1,0 +1,48 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:macros="sap.fe.macros">
+	<VBox id="_IDGenVBox1" core:require="{ handler: 'mahindrapricing3app/ext/fragment/VehicleAllocation'}">
+		<Table id="_IDGenTable1" items="{path: 'salesToPurchase/purchaseToQuotation/quototionToEnquiry/enquiryToVehicle'}">
+    <columns>
+        <Column id="_IDGenColumn12">
+            <Text id="_IDGenText" text="Vehicle Code"/>
+        </Column>
+        <Column id="_IDGenColumn13">
+            <Text id="_IDGenText29" text="Vehicle Name"/>
+        </Column>
+        <Column id="_IDGenColumn14">
+            <Text id="_IDGenText30" text="plannedQuantity"/>
+        </Column>
+        <Column id="_IDGenColumn15">
+            <Text id="_IDGenText31" text="shippingDate"/>
+        </Column>
+        <Column id="_IDGenColumn16">
+            <Text id="_IDGenText32" text="expectedDeliveryDate" />
+        </Column>
+        <Column id="_IDGenColumn17">
+            <Text id="_IDGenText33" text="allocationStatus" />
+        </Column>
+    </columns>
+    <items>
+        <ColumnListItem id="_IDGenColumnListItem1">
+            <Text id="_IDGenText36" text="{vehicleToSchedule/vehicleCode}"/>
+            <Text id="_IDGenText37" text="{vehicleName}"/>
+            <HBox id="_IDGenHBox8">
+                <Input id="_IDGenDatePicker1" value="{vehicleToSchedule/plannedQuantity}" visible="{= ${editModel>/input1} }"/>
+                <Text id="_IDGenText40" text="{vehicleToSchedule/plannedQuantity}" visible="{= ${editModel>/text1} }"></Text>
+            </HBox>
+            <HBox id="_IDGenHBox9">
+                <DatePicker id="_IDGenInput3" value="{vehicleToSchedule/shippingDate}" visible="{= ${editModel>/input1} }" />
+                <Text id="_IDGenText41" text="{vehicleToSchedule/shippingDate}" visible="{= ${editModel>/text1} }"></Text>
+            </HBox>
+            <HBox id="_IDGenHBox10">
+                <DatePicker id="_IDGenInput4" value="{vehicleToSchedule/expectedDeliveryDate}" visible="{= ${editModel>/input1} }" />
+                <Text id="_IDGenText42" text="{vehicleToSchedule/expectedDeliveryDate}" visible="{= ${editModel>/text1} }"></Text>
+            </HBox>
+            <HBox id="_IDGenHBox11">
+                <Input id="_IDGenInput5" value="{vehicleToSchedule/allocationStatus}" visible="{= ${editModel>/input1} }" />
+                <Text id="_IDGenText43" text="{vehicleToSchedule/allocationStatus}" visible="{= ${editModel>/text1} }"></Text>
+            </HBox>
+        </ColumnListItem>
+    </items>
+</Table>
+	</VBox>
+</core:FragmentDefinition>
